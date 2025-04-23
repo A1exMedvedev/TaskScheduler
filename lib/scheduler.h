@@ -56,7 +56,7 @@ private:
         Result(size_t id, TTaskScheduler &task_scheduler) : id_(id), task_scheduler_(task_scheduler) {
         }
 
-        operator T() {
+        operator const T&() {
             return task_scheduler_.tasks_[id_].get_current_task()->get_result()->get_result<T>();
         }
     };
@@ -84,7 +84,7 @@ private:
 
             CurrentResult &operator=(const CurrentResult &other) = delete;
 
-            T get_result() {
+            const T& get_result() const {
                 return value_;
             }
         };
@@ -99,7 +99,7 @@ private:
         }
 
         template<typename T>
-        T get_result() {
+        const T& get_result() const {
             auto *ptr = dynamic_cast<CurrentResult<T> *>(result_.get());
             if (!ptr) {
                 throw std::bad_cast();
@@ -192,10 +192,10 @@ private:
 
 public:
     template<typename T>
-    Result<typename my_remove_reference<T>::type> getFutureResult(TypeId id) {
+    Result<T> getFutureResult(TypeId id) {
 
         using type = my_remove_reference<T>::type;
-        
+
         if (id >= tasks_.size()) {
             throw MyCycleException();
         }
@@ -232,7 +232,7 @@ public:
 
 
     template<typename T>
-    my_remove_reference<T>::type getResult(size_t id) {
+    const T& getResult(size_t id) {
 
         using type = my_remove_reference<T>::type;
 
