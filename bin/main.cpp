@@ -1,6 +1,8 @@
 #include <iostream>
 
 #include "scheduler.h"
+#include <cmath>
+
 
 struct AddNumber {
     float add(float a) const {

@@ -5,11 +5,13 @@ project(
     LANGUAGES CXX
 )
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS true)
+
 set(CMAKE_CXX_STANDARD 23)
 
 include_directories(lib)
 
 add_subdirectory(bin)
 
-# enable_testing()
-# add_subdirectory(tests)
+enable_testing()
+add_subdirectory(tests)
